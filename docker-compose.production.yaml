@@ -1,0 +1,47 @@
+version: '3'
+services:
+    server:
+        build: ./server
+        environment:
+            - DATABASE_URL=postgresql://nerlihmax:amogus@postgres:5432/main?schema=public
+        ports:
+            - '3000:3000'
+        depends_on:
+            - postgres
+            # - s3
+        restart: always
+
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_DB: main
+            POSTGRES_USER: nerlihmax
+            POSTGRES_PASSWORD: amogus
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        ports:
+            - '4000:5432'
+
+    # s3:
+    #     image: minio/minio
+    #     ports:
+    #         - '4001:9000'
+    #     volumes:
+    #         - s3:/data
+    #     environment:
+    #         MINIO_ROOT_USER: nerlihmax
+    #         MINIO_ROOT_PASSWORD: amogus
+
+    vkma:
+        build: ./vkma
+        ports:
+            - '5000:8080'
+        environment:
+            - VITE_API_URL=https://cfeee1e5e4e00a.ru:3000/api
+        restart: always
+        depends_on:
+            - server
+
+volumes:
+    postgres:
+    s3:

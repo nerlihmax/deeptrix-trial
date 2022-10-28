@@ -1,0 +1,26 @@
+version: '3'
+services:
+    postgres:
+        image: postgres
+        environment:
+            POSTGRES_DB: main
+            POSTGRES_USER: nerlihmax
+            POSTGRES_PASSWORD: amogus
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        ports:
+            - '4000:5432'
+
+    s3:
+        image: minio/minio
+        ports:
+            - '4001:9000'
+        volumes:
+            - s3:/data
+        environment:
+            MINIO_ACCESS_KEY: root
+            MINIO_SECRET_KEY: amogus
+
+volumes:
+    postgres:
+    s3:

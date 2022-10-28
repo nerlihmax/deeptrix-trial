@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guide {
+    id String @id @default(uuid())
+    firstName String
+    lastName String
+    phone String    
+    avatar String
+    tours Tour[]
+}
+
+model Tour {
+    id String @id @default(uuid())
+    name String
+    description String
+    datetime DateTime
+    guide_id String
+    durationByFeet Int?
+    durationByCar Int?
+    address String
+    maxDuration Int?
+    visitorsCount Int
+    cost Int
+    features String[]
+    images String[]
+    guide Guide @relation(fields: [guide_id], references: [id])
+}
